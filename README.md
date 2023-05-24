@@ -1,7 +1,7 @@
 # Fresh-Mart-E-commerce-Web-App
 
 
-This is an E-commerce web application built with Django, providing users with a platform to browse and purchase products online.
+This is an e-commerce web application designed to provide users with a convenient platform for buying food products online. With a user-friendly interface and seamless ordering process, this web app aims to enhance the online shopping experienc for those who are unable to leave their homes to purchase foodstuffs.
 
 ## Features
 
