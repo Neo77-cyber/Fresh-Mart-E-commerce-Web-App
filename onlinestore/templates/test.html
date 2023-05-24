@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+</head>
+<body>
+    <h2>Order Summary</h2>
+    <p>Cart Total: {{ total }}</p>
+    <p>Item Total: {{ item_total }}</p>
+
+    <h2>Payment</h2>
+    <form id="paymentForm" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email-address" required />
+        </div>
+        <div class="form-group">
+            <label for="amount"></label>
+            <input type="hidden" id="amount" value="{{ total }}" readonly />
+        </div>
+        <input type="hidden" id="referenceField" name="reference" value="" />
+        <div class="form-submit">
+            <button type="submit" onclick="payWithPaystack()">Pay</button>
+        </div>
+    </form>
+
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+    const paymentForm = document.getElementById('paymentForm');
+    paymentForm.addEventListener('submit', payWithPaystack, false);
+
+    function payWithPaystack(e) {
+        e.preventDefault();
+
+        let handler = PaystackPop.setup({
+            key: '{{ paystack_public_key }}',
+            email: document.getElementById('email-address').value,
+            amount: document.getElementById('amount').value * 100,
+            ref: '' + Math.floor((Math.random() * 1000000000) + 1),
+            onClose: function () {
+                alert('Window closed.');
+            },
+            callback: function (response) {
+                let referenceField = document.getElementById('referenceField');
+                referenceField.value = response.reference; // Set the transaction reference in the hidden field
+                paymentForm.submit(); // Submit the form to trigger the POST request
+            }
+        });
+
+        handler.openIframe();
+    }
+</script>
