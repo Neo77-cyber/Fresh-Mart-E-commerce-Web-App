@@ -10,6 +10,9 @@ from .forms import UserForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import  auth
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 
 
@@ -26,9 +29,7 @@ def store(request):
             cart = request.session.get('cart', [])
             cart.append(product.id)
             request.session['cart'] = cart
-            print(request.session.get('cart'))
-
-
+            
         return redirect('cart')
 
     return render(request, 'store.html', {'products': products})
@@ -41,17 +42,11 @@ def cart(request):
     else:
         product_ids = request.session.get('cart', [])
         order_items = Order.objects.filter(product_id__in=product_ids)
-        print(order_items)
-
+        
     subtotal_list = [order_item.product.price * order_item.quantity for order_item in order_items]
     total = sum(subtotal_list)
 
     return render(request, 'cart.html', {'order_items': order_items, 'subtotal_list': subtotal_list, 'total': total})
-
-
-
-
-
 
 
 def delete_item(request, pk):
@@ -70,8 +65,6 @@ def delete_item(request, pk):
     return redirect('cart')
 
 
-
-
 def update_item(request, pk):
     order_item = Order.objects.get(id=pk)
 
@@ -82,8 +75,6 @@ def update_item(request, pk):
 
         order_item.save()
         return redirect('cart')
-
-
 
 
 def checkout(request):
@@ -106,7 +97,6 @@ def checkout(request):
 
     if request.method == 'POST':
         if request.user.is_authenticated:
-            # Process checkout for authenticated user
             reference = request.POST.get('reference')
             verify_url = f"https://api.paystack.co/transaction/verify/{reference}"
             headers = {
@@ -116,21 +106,14 @@ def checkout(request):
             data = response.json()
 
             if data['status'] and data['data']['status'] == 'success':
-                # Payment is successful, update order status and perform other actions
                 order_items.update(is_ordered=True)
-                # Additional logic here to update other models or perform any necessary actions
-
-                # Redirect to a success page or perform any other action
                 return redirect('store')
             else:
-                # Payment verification failed, handle the error appropriately
-                # For example, you can display an error message or redirect to a failure page
                 messages.error(request, 'Verification failed')
                 return redirect('checkout')
         else:
-            # Store order items in session and redirect to registration page
             product_ids = request.session.get('cart', [])
-            request.session['cart'] = list(product_ids)  # Convert to a list of product IDs
+            request.session['cart'] = list(product_ids)  
             return redirect('register')
 
     return render(request, 'checkout.html', {'total': total, 'item_total': item_total, 'paystack_public_key': settings.PAYSTACK_PUBLIC_KEY})
@@ -138,11 +121,8 @@ def checkout(request):
 
 
 
-# ...
 
-from django.contrib.auth import get_user_model
-
-# ...
+# # # # # # # # # # # # # # # # # # # #SIGNUP/LOGIN# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 def register(request):
     form_name = UserForm()
@@ -152,12 +132,10 @@ def register(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-
-            # Retrieve cart items from session and associate them with the registered user
             product_ids = request.session.get('cart', [])
             order_items = Order.objects.filter(product_id__in=product_ids)
-            User = get_user_model()  # Get the User model dynamically
-            user_instance = User.objects.get(username=user.username)  # Fetch the User instance
+            User = get_user_model()  
+            user_instance = User.objects.get(username=user.username)  
             for order_item in order_items:
                 order_item.user_id = user_instance.id  # Assign the user ID of the authenticated user
                 order_item.save()
@@ -172,38 +150,6 @@ def register(request):
         context = {'form': form}
 
     return render(request, 'register.html', context)
-
-
-
-
-
-
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-
-def register(request):
-    form = UserCreationForm()
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.password = make_password(form.cleaned_data['password1'])  # Securely set the password
-            user.save()
-            
-            # Retrieve cart items from session and associate them with the registered user
-            product_ids = request.session.get('cart', [])
-            order_items = Order.objects.filter(product_id__in=product_ids)
-            for order_item in order_items:
-                order_item.user = user
-                order_item.save()
-            
-            request.session.pop('cart')  # Remove cart items from session
-            messages.success(request, "You have registered successfully")
-            return redirect('signin')
-    context = {'form': form}
-    return render(request, 'register.html', context)
-
 
 
 def signin(request):
