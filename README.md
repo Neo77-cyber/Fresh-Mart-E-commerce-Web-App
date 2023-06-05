@@ -36,8 +36,8 @@ This is an e-commerce web application designed to provide users with a convenien
 5. Set up the database: python manage.py migrate
 
 7. Open your web browser and access the application at `http://localhost:8000`.
-8. Access FastAPI backend code seperately: exit previous virtual environment deactivate
-9. Navigate to the fastapi directory: cd .. then cd freshmart-fastapi
+8. Access FastAPI backend code seperately: exit previous virtual environment `deactivate`
+9. Navigate to the fastapi directory: `cd ..` then `cd freshmart-fastapi`
 10. create a virtual environment: `pipenv shell`
 11. install dependecies: `pipenv install -r requirements.txt`
 12. start the development server: `uvicorn main:app --reload`
