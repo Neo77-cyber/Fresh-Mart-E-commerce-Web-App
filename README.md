@@ -16,6 +16,7 @@ This is an e-commerce web application designed to provide users with a convenien
 
 - Python
 - Django Framework
+- FastAPI
 - HTML/CSS
 - JavaScript
 - Bootstrap
@@ -26,15 +27,22 @@ This is an e-commerce web application designed to provide users with a convenien
 
 1. Clone the repository:
 
-2. Navigate to the project directory:
+2. Navigate to the project directory: `cd freshmart-django`
 
-3. Create and activate a virtual environment: pipenv shell
+3. Create and activate a virtual environment: `pipenv shell`
 
-4. Install the dependencies: pipenv install -r requirements.txt
+4. Install the dependencies: `pipenv install -r requirements.txt`
 
 5. Set up the database: python manage.py migrate
 
 7. Open your web browser and access the application at `http://localhost:8000`.
+8. Access FastAPI backend code seperately: exit previous virtual environment deactivate
+9. Navigate to the fastapi directory: cd .. then cd freshmart-fastapi
+10. create a virtual environment: `pipenv shell`
+11. install dependecies: `pipenv install -r requirements.txt`
+12. start the development server: `uvicorn main:app --reload`
+13. Access the app in your browser at `http://localhost:8000`
+
 
 ## Deployment
 
