@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'onlinestore'
+    'onlinestore',
+    
 ]
 
 MIDDLEWARE = [
@@ -144,10 +145,10 @@ PAYSTACK_PUBLIC_KEY = os.getenv("PAYSTACK_PUBLIC_KEY")
 
 
 
-
-
-# Set the session engine (e.g., database-based session)
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
-# Optional: Set a custom session cookie name
+
 SESSION_COOKIE_NAME = 'onlinestore_session'
+
+
+

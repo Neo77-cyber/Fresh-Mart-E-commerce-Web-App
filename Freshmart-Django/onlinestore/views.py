@@ -107,6 +107,9 @@ def checkout(request):
 
             if data['status'] and data['data']['status'] == 'success':
                 order_items.update(is_ordered=True)
+                phone_number = request.POST.get('phone_number')
+
+                order_items.update(phone_number=phone_number)
                 return redirect('store')
             else:
                 messages.error(request, 'Verification failed')
@@ -125,22 +128,22 @@ def checkout(request):
 # # # # # # # # # # # # # # # # # # # #SIGNUP/LOGIN# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 def register(request):
-    form_name = UserForm()
+    form = UserForm()
     if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
+            user.set_password(form.cleaned_data['password1'])
             user.save()
             product_ids = request.session.get('cart', [])
             order_items = Order.objects.filter(product_id__in=product_ids)
             User = get_user_model()  
             user_instance = User.objects.get(username=user.username)  
             for order_item in order_items:
-                order_item.user_id = user_instance.id  # Assign the user ID of the authenticated user
+                order_item.user_id = user_instance.id 
                 order_item.save()
 
-            request.session.pop('cart')  # Remove cart items from session
+            request.session.pop('cart')  
             messages.success(request, "You have registered successfully")
             return redirect('signin')
         else:
