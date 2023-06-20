@@ -3,6 +3,8 @@
 
 This is an e-commerce web application designed to provide users with a convenient platform for buying food products online. With a user-friendly interface and seamless ordering process, this web app aims to enhance the online shopping experienc for those who are unable to leave their homes to purchase foodstuffs. It offers separate implementations using Django and FastAPI to cater to different preferences and requirements
 
+**Note: Here are the links to the respective implementations: [Django Project](https://freshmartneo.pythonanywhere.com/) and [FastAPI Project](https://fresh-mart-ecommerce-fastapi.onrender.com/docs)**
+
 ## Features
 
 - User Registration and Authentication: Users can create accounts, login, and manage their profiles.
