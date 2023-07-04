@@ -251,9 +251,11 @@
                                     color: red;
                                   }
                               </style>
+							  {% if messages %}
                               {% for message in messages %}
                               <h8> {{message}}</h8>
                               {% endfor %}
+							  {% endif %}
                               <form action = "" method="POST" autocomplete="on">
                                 {%csrf_token%}
                                 <label for="username">User ID:</label>

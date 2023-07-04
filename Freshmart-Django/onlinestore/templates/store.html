@@ -250,8 +250,8 @@
 				<!-- Product - Deals Of The Day -->
 				<div class="section products-block deals-of-day show-hover nav-color layout-2">
 					<div class="block-title">
-						<h2 class="title">Deals of <span>The Day</span></h2>
-						<div class="sub-title">Lorem ipsum dolor sit amet consectetur adipiscing elit eiusmod tempor</div>
+						<h2 class="title">Hello <span>Anonymous User!</span></h2>
+						<div class="sub-title">New Customer? <a class="login" href="{% url 'register' %}">Click here to signup</a> Existing Customers <a class="login" href="{% url 'signin' %}">Click here to signin</a></div>
 					</div>
 					
 					<div class="block-content">
@@ -280,7 +280,12 @@
 												<span class="base-price">{{product.sale_price}}</span>
 											</div>
 											
+											
+											{% if product.inventory <= 0 %}
+												<div class="out-of-stock">This product is currently out of stock.</div>
+											{%else%}
 											<div class="product-intro">{{product.detail}}</div>
+											{% endif %}
                                             <form action="{% url 'store' %}" method="POST">
                                                 {%csrf_token%}
                                                 <input type="hidden" name="product_id" value="{{ product.id }}">

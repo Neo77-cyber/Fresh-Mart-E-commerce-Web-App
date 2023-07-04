@@ -13,6 +13,7 @@ class Products(models.Model):
     image = models.ImageField(upload_to='product_images/', blank=True, null=True)
     sale_price = models.IntegerField(blank=True, null=True)
     detail = models.CharField(max_length=100, blank=True, null=True)
+    inventory = models.PositiveIntegerField(default=0)
 
 
     def __str__(self) -> str:
@@ -26,6 +27,9 @@ class Order(models.Model):
     quantity = models.IntegerField(default=1)
     is_ordered = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
+    is_deleted = models.BooleanField(default=False)
+
+    
 
     def __str__(self):
         return str(self.product)

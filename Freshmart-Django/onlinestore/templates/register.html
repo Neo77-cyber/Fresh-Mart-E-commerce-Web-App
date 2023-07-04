@@ -231,10 +231,12 @@
                                             background-color: #45a049;
                                         }
                                     </style>
-                                
+									{% if messages %}
                                     {% for message in messages %}
                                         <h5>{{ message }}</h5>
                                     {% endfor %}
+									{% endif %}
+
                                     
                                     <form action="" method="POST">
                                         {% csrf_token %}

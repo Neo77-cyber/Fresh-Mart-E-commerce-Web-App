@@ -13,6 +13,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Q
+from django.db.models import F, Sum
 
 
 
@@ -23,14 +25,22 @@ def store(request):
         product_id = request.POST.get('product_id')
         product = Products.objects.get(id=product_id)
 
+        if product.inventory <= 0:
+            messages.error(request, 'This product is currently out of stock.')
+            return redirect('store')
+
         if request.user.is_authenticated:
             order, created = Order.objects.get_or_create(user=request.user, product=product)
         else:
             cart = request.session.get('cart', [])
-            cart.append(product.id)
+            if product.id not in cart: 
+                cart.append(product.id)
+            print(cart)
+            
             request.session['cart'] = cart
             
         return redirect('cart')
+    
 
     return render(request, 'store.html', {'products': products})
 
@@ -38,43 +48,81 @@ def store(request):
 def cart(request):
     if request.user.is_authenticated:
         order_items = Order.objects.filter(user=request.user)
-        
     else:
         product_ids = request.session.get('cart', [])
-        order_items = Order.objects.filter(product_id__in=product_ids)
+        if isinstance(product_ids, int):
+            product_ids = [product_ids]  
+        products = Products.objects.filter(id__in=product_ids)
         
-    subtotal_list = [order_item.product.price * order_item.quantity for order_item in order_items]
-    total = sum(subtotal_list)
+        order_items = []
+        for product in products:
+            quantity = product_ids.count(product.id)
+            order_item = Order(product=product, quantity=quantity)
+            order_items.append(order_item)
+
+    subtotal_list = []
+    total = 0
+
+    for order_item in order_items:
+        subtotal = order_item.product.price * order_item.quantity
+        subtotal_list.append(subtotal)
+        total += subtotal
 
     return render(request, 'cart.html', {'order_items': order_items, 'subtotal_list': subtotal_list, 'total': total})
 
 
+
+
+
+
+
+
+
+ 
 def delete_item(request, pk):
     if request.user.is_authenticated:
         order_item = Order.objects.get(id=pk)
         order_item.delete()
     else:
         cart = request.session.get('cart', [])
-        product_ids = [item['product_id'] for item in cart]
-
-        if pk in product_ids:
-            index = product_ids.index(pk)
-            cart.pop(index)
+        if pk in cart:
+            cart.remove(pk)
             request.session['cart'] = cart
 
     return redirect('cart')
 
 
+
 def update_item(request, pk):
-    order_item = Order.objects.get(id=pk)
+    if request.user.is_authenticated:
+        order_item = Order.objects.get(id=pk)
+        if request.method == 'POST':
+            quantity = int(request.POST.get('quantity'))
 
-    if request.method == 'POST':
-        quantity = request.POST.get('quantity')
-
-        order_item.quantity = quantity
-
-        order_item.save()
-        return redirect('cart')
+            if quantity > order_item.product.inventory:
+                update_quantity_message = 'The requested quantity exceeds the available inventory.'
+                messages.error(request, update_quantity_message)
+            else:
+                order_item.quantity = quantity
+                order_item.save()
+            return redirect('cart')
+    else:
+        product_id = pk
+        cart = request.session.get('cart', [])
+        
+        if isinstance(cart, int):
+            cart = []  
+        
+        for item in cart:
+            if isinstance(item, dict) and item.get('product_id') == product_id:
+                item['quantity'] = request.POST.get('quantity')
+                request.session['cart'] = cart
+                break
+    context = {
+        'update_quantity_message': update_quantity_message,  
+    }
+        
+    return redirect('cart', context)
 
 
 def checkout(request):
@@ -85,6 +133,15 @@ def checkout(request):
 
         subtotal_list = [order_item.product.price * order_item.quantity for order_item in order_items]
         total = sum(subtotal_list)
+        cart_item_count = order_items.aggregate(total_quantity=Sum('quantity'))['total_quantity']
+        
+        
+        all_out_of_stock = order_items.filter(product__inventory__lte=0).exists()
+        
+        
+        if all_out_of_stock or cart_item_count == 0:
+            messages.error(request, 'All products are out of stock or your cart is empty. Please add products to your cart before checking out.')
+            return redirect('cart')
     else:
         product_ids = request.session.get('cart', [])
         order_items = Order.objects.filter(product_id__in=product_ids)
@@ -96,6 +153,8 @@ def checkout(request):
         total = sum(subtotal_list)
 
     if request.method == 'POST':
+        
+        
         if request.user.is_authenticated:
             reference = request.POST.get('reference')
             verify_url = f"https://api.paystack.co/transaction/verify/{reference}"
@@ -108,6 +167,11 @@ def checkout(request):
             if data['status'] and data['data']['status'] == 'success':
                 order_items.update(is_ordered=True)
                 phone_number = request.POST.get('phone_number')
+
+                for order_item in order_items:
+                    product = order_item.product
+                    product.inventory -= order_item.quantity
+                    product.save()
 
                 order_items.update(phone_number=phone_number)
                 return redirect('store')

@@ -163,6 +163,7 @@
 					</ul>
 				</div>
 			</header>
+							
 			
 			
 			<!-- Main Content -->
@@ -182,6 +183,7 @@
 				<div class="container">
 					<div class="page-cart">
 						<div class="table-responsive">
+							
 							<table class="cart-summary table table-bordered">
 								<thead>
 									<tr>
@@ -196,15 +198,21 @@
 								</thead>
 								{% for order_item in order_items %}
 								<tbody>
+									
 									<tr>
 										<td class="product-remove">
-                                            <form action="{% url 'delete_item' order_item.id %}" method="POST">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form>
+                                            {% if request.user.is_authenticated %}
+												<form action="{% url 'delete_item' order_item.id %}" method="POST">
+											{% else %}
+												<form action="{% url 'delete_item' order_item.product_id %}" method="POST">
+											{% endif %}
+												{% csrf_token %}
+												<button type="submit" class="btn btn-danger">Delete</button>
+											</form>
 										</td>	
 										<td>
 											<a href="" class="product-name">{{ order_item.product.name }}</a>
+											
 										</td>
 										<td class="text-center">
 											{{ order_item.product.price }}
@@ -213,16 +221,26 @@
 											{{order_item.quantity}}
 										</td>
 										<td>
-                                            <form action="{% url 'update_item' order_item.id %}" method="POST">
-                                                {% csrf_token %}
-                                                <input type="number" name="quantity" value="{{ order_item.quantity }}">
-                                                <button type="submit" class="btn btn-primary">Update</button>
-                                            </form>    
+											{% if request.user.is_authenticated %}
+												<form action="{% url 'update_item' order_item.id %}" method="POST">
+											{% else %}
+												<form action="{% url 'update_item' order_item.product.id %}" method="POST">
+											{% endif %}
+												{% csrf_token %}
+												<input type="number" name="quantity" value="{{ order_item.quantity }}">
+												<button type="submit" class="btn btn-primary">Update</button>
+											</form>
 										</td>
 										<td class="text-center">
-											#
+											{% if update_quantity_message %}
+												<div class="alert alert-success">
+													{{ update_quantity_message }}
+												</div>
+											{% endif %}
 										</td>
 									</tr>
+									
+									
 									
 									{% endfor %}
 								</tbody>
