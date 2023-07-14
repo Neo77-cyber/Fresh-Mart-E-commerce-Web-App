@@ -1,9 +1,6 @@
-
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="zxx">
-	
 
 <head>
 		<!-- Basic Page Needs -->
@@ -40,33 +37,43 @@
 		<link rel="stylesheet" href="{%static 'css/reponsive.css' %}">
 	</head>
 	
-	<body class="home home-1">
+	<body class="home home-4">
 		<div id="all">
 			<!-- Header -->
 			<header id="header">
-				<!-- Topbar -->
-				
-					
-					
-					
-					
-				
-				<!-- Header Top -->
-				<div class="header-top">
-					<div class="container">
-						<div class="row">
-							<!-- Search -->
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-								<div class="form-search">
-									<form action="#" method="get">
-										<input type="text" class="form-input" placeholder="Search">
-										<button type="submit" class="fa fa-search"></button>
-									</form>
+				<div class="container">
+					<div class="header-top">
+						<div class="row align-items-center">
+							<!-- Header Left -->
+							<div class="col-lg-5 col-md-5 col-sm-12">
+								<!-- Main Menu -->
+								<div id="main-menu">
+									<ul class="menu">
+										<li class="dropdown">
+											<a href="{% url 'store' %}" title="Homepage">Store</a>
+										</li>
+										
+										<li class="dropdown">
+											<a href="{% url 'aboutus' %}" title="Product">About Us</a>
+										</li>
+										
+										<li class="dropdown">
+											<a href="{% url 'contact' %}" title="Page">Sell on Freshmart</a>
+										</li>
+											
+										<li>
+											<a href="{% url 'becomearider' %}">Become a Rider</a>
+										</li>
+										
+										
+										
+									</ul>
 								</div>
 							</div>
 							
-							<!-- Logo -->
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+							<!-- Header Center -->
+							<div class="col-lg-2 col-md-2 col-sm-12 header-center justify-content-center">
+								<!-- Logo -->		
 								<div class="logo">
 									<a href="{% url 'store' %}">
 										<img class="img-responsive" src="{%static 'img/logo.png' %}" alt="Logo">
@@ -76,117 +83,165 @@
 								<span id="toggle-mobile-menu"><i class="zmdi zmdi-menu"></i></span>
 							</div>
 							
-							<!-- Cart -->
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+							
+							<!-- Header Right -->
+							<div class="col-lg-5 col-md-5 col-sm-12 header-right d-flex justify-content-end align-items-center">
+								<!-- Search -->							
+								<div class="form-search">
+									<form action="{% url 'search' %}" method="get">
+										<input type="text" class="form-input" name="q" placeholder="Search">
+										<button type="submit" class="fa fa-search"></button>
+									</form>
+								</div>
+								
+								<!-- Cart -->
 								<div class="block-cart dropdown">
-									<div class="cart-title">
-										<i class="fa fa-shopping-basket"></i>
-										<span class="cart-count">2</span>
-									</div>
 									
-									<div class="dropdown-content">
-										<div class="cart-content">
-											<table>
-												<tbody>
-													<tr>
-														<td class="product-image">
-															<a href="product-detail-left-sidebar.html">
-																<img src="{%static 'img/product/7.jpg' %}" alt="Product">
-															</a>
-														</td>
-														<td>
-															<div class="product-name">
-																<a href="product-detail-left-sidebar.html">Organic Strawberry Fruits</a>
-															</div>
-															<div>	
-																2 x <span class="product-price">$28.98</span>
-															</div>
-														</td>
-														<td class="action">
-															<a class="remove" href="#">
-																<i class="fa fa-trash-o" aria-hidden="true"></i>
-															</a>
-														</td>
-													</tr>
-													
-													<tr>
-														<td class="product-image">
-															<a href="product-detail-left-sidebar.html">
-																<img src="{%static 'img/product/6.jpg' %}" alt="Product">
-															</a>
-														</td>
-														<td>
-															<div class="product-name">
-																<a href="product-detail-left-sidebar.html">Organic Strawberry</a>
-															</div>
-															<div>	
-																1 x <span class="product-price">$35.00</span>
-															</div>
-														</td>
-														<td class="action">
-															<a class="remove" href="#">
-																<i class="fa fa-trash-o" aria-hidden="true"></i>
-															</a>
-														</td>
-													</tr>
-													
-													<tr class="total">
-														<td>Total:</td>
-														<td colspan="2">$92.96</td>
-													</tr>
-													
-													<tr>
-														<td colspan="3">
-															<div class="cart-button">
-																<a class="btn btn-primary" href="product-cart.html" title="View Cart">View Cart</a>
-																<a class="btn btn-primary" href="product-checkout.html" title="Checkout">Checkout</a>
-															</div>
-														</td>
-													</tr>
-												</tbody>
-											</table>
+									
+									
+								</div>
+								
+								
+								<!-- My Account -->
+								<div class="my-account dropdown toggle-icon">
+									<div class="dropdown-toggle" data-toggle="dropdown">
+										<i class="zmdi zmdi-menu"></i>
+									</div>
+									<div class="dropdown-menu">	
+										{% if user.is_authenticated %}									
+										<div class="item">
+											<a href="{% url 'profile' %}" title="Log in to your customer account"><i class="fa fa-cog"></i>My Account</a>
+										</div>
+										<div class="item">
+											<a href="{% url 'logout' %}" title="Log in to your customer account"><i class="fa fa-cog"></i>Logout</a>
+										</div>
+										<div class="item">
+											<a href="{% url 'cart' %}" title="Register Account"><i class="fa fa-user"></i>Cart</a>
+										</div>
+										<div class="item">
+											<a href="{% url 'checkout' %}" title="Register Account"><i class="fa fa-user"></i>Checkout</a>
+										</div>
+										{% else %}
+										<div class="item">
+											<a href="{% url 'signin' %}" title="Log in to your customer account"><i class="fa fa-sign-in"></i>Login</a>
+										</div>
+										<div class="item">
+											<a href="{% url 'register' %}" title="Register Account"><i class="fa fa-user"></i>Register</a>
+										</div>
+										<div class="item">
+											<a href="{% url 'cart' %}" title="Register Account"><i class="fa fa-user"></i>Cart</a>
+										</div>
+										<div class="item">
+											<a href="{% url 'checkout' %}" title="Register Account"><i class="fa fa-user"></i>Checkout</a>
+										</div>
+										{% endif %}
+										<div class="item">				
 										</div>
 									</div>
-								</div>	
-							</div>	
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				
-				<!-- Main Menu -->
-				<div id="main-menu">
-					<ul class="menu">
-						<li class="dropdown">
-							<a href="{% url 'store' %}" title="Homepage">Home</a>
-						</li>
-						
-						<li class="dropdown">
-							<a href="{% url 'cart' %}" title="Product">Cart</a>
-						</li>
-						
-						<li class="dropdown">
-							<a href="{% url 'checkout' %}" title="Page">checkout</a>
-						</li>
-					</ul>
-				</div>
+				</div>	
 			</header>
 			
 			
 			<!-- Main Content -->
-			<div id="content" class="site-content">
-				<!-- Slideshow -->		
+			<div id="content" class="site-content">				
+				<!-- Slideshow -->
 				<div class="section slideshow">
-					<div class="tiva-slideshow-wrapper">
-						<div id="tiva-slideshow" class="nivoSlider">
-							<a href="#">
-								<img class="img-responsive" src="{%static 'img/slideshow/home1-slideshow-1.jpg' %}" alt="Slideshow Image">
-							</a>
-							<a href="#">
-								<img class="img-responsive" src="{%static 'img/slideshow/home1-slideshow-2.jpg' %}" alt="Slideshow Image">
-							</a>
-							<a href="#">
-								<img class="img-responsive" src="{%static 'img/slideshow/home1-slideshow-3.jpg' %}" alt="Slideshow Image">
-							</a>
+					<div class="container">
+						<div class="tiva-slideshow-wrapper">
+							<div id="tiva-slideshow" class="nivoSlider">
+								<a href="{% url 'store' %}">
+									<img class="img-responsive" src="{%static 'img/slideshow/home4-slideshow-1.jpg' %}" alt="Slideshow Image">
+								</a>
+								<a href="{% url 'store' %}">
+									<img class="img-responsive" src="{%static 'img/slideshow/home4-slideshow-2.jpg' %}" alt="Slideshow Image">
+								</a>
+								<a href="{% url 'store' %}">
+									<img class="img-responsive" src="{%static 'img/slideshow/home4-slideshow-3.jpg' %}" alt="Slideshow Image">
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Product - Our Products -->
+				<div class="section products-block product-tab tab-2">
+					<div class="block-title">
+						<div class="sub-title">No need to go market we go help you deliver your foodstuffs!</div>
+						{% if user.is_authenticated %}
+						<h2 class="title">Hello <span>{{user.username}}</span></h2>
+						{%else%}
+						<h2 class="title">Hello <span>Anonymous</span></h2>
+						{% endif %}
+					</div>
+					
+					<div class="block-content">
+						<div class="container">
+							
+							
+							<!-- Tab Content -->
+							<div class="tab-content">
+								<!-- All Products -->
+								<div role="tabpanel" class="tab-pane fade in active" id="all-products">
+									<div class="products owl-theme owl-carousel">
+										{% for product in products %}
+										<div class="product-group">
+											<div class="product-item">
+												<div class="product-image">
+													<a href="{% url 'productdetail' product.id %}">
+														<img src="{{product.image.url}}" alt="Product Image">
+													</a>
+												</div>
+												
+												<div class="product-title">
+													<a href="{% url 'productdetail' product.id %}">
+														{{product.name}}
+													</a>
+												</div>	
+												<div class="product-price">
+													<span class="sale-price">₦{{product.price}}</span>
+													<span class="base-price">₦{{product.sale_price}}</span>
+												</div>
+												{% if product.inventory <= 0 %}
+													<div class="out-of-stock">This product is currently out of stock.</div>
+												{%else%}
+												<style>
+													.product-stock {
+														
+														padding: 10px 0; 
+														font-size: 14px; 
+														color: green; 
+													}
+												
+													.product-stock p {
+														margin: 0;
+														font-weight: bold; 
+													}
+												</style>
+												<div class="product-stock">
+										
+													<p>{{ product.inventory }} items left in stock</p>
+												</div>
+												{% endif %}
+												{% if user.is_authenticated %}
+												<form action="{% url 'store' %}" method="POST">
+													{%csrf_token%}
+													<input type="hidden" name="product_id" value="{{ product.id }}">
+													<button type="submit" class="btn btn-primary">Add to Cart</button>
+												</form>
+												{% else %}
+												<form action="{% url 'signin' %}">
+													<button type="submit" class="btn btn-primary">Add to Cart</button>
+												</form>
+												{% endif %}			
+											</div>	
+										</div>
+										{% endfor %}	
+									</div>
+								</div>	
+							</div>
 						</div>
 					</div>
 				</div>
@@ -194,249 +249,145 @@
 				
 				<!-- Intro -->
 				<div class="section intro">
-					<div class="container">
-						<div class="row">
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<div class="intro-header">
-									<h3>Welcome To FreshMart</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</p>
-								</div>
-							</div>
-							
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-								<div class="intro-left">
-									<div class="intro-item">
-										<p><img src="{%static 'img/intro-icon-1.png' %}" alt="Intro Image"></p>
-										<h4>Always Fresh</h4>
-										<p>Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-									</div>
-									
-									<div class="intro-item">
-										<p><img src="{%static 'img/intro-icon-3.png' %}" alt="Intro Image"></p>
-										<h4>Super Healthy</h4>
-										<p>Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-									</div>
-								</div>
-							</div>
-							
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-								<div class="effect">
-									<a href="#">
-										<img class="img-responsive" src="{%static 'img/intro-1.png' %}" alt="Intro Image">
-									</a>
-								</div>
-							</div>
-							
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-								<div class="intro-right">
-									<div class="intro-item">
-										<p><img src="{%static 'img/intro-icon-2.png' %}" alt="Intro Image"></p>
-										<h4>100% Natural</h4>
-										<p>Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-									</div>
-									
-									<div class="intro-item">
-										<p><img src="{%static 'img/intro-icon-4.png' %}" alt="Intro Image"></p>
-										<h4>Premium Quality</h4>
-										<p>Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				
-				<!-- Product - Deals Of The Day -->
-				<div class="section products-block deals-of-day show-hover nav-color layout-2">
-					<div class="block-title">
-						<h2 class="title">Hello <span>Anonymous User!</span></h2>
-						<div class="sub-title">New Customer? <a class="login" href="{% url 'register' %}">Click here to signup</a> Existing Customers <a class="login" href="{% url 'signin' %}">Click here to signin</a></div>
-					</div>
-					
-					<div class="block-content">
-						<div class="products owl-theme owl-carousel">
-							{% for product in products %}
-							<div class="product-item">
-								<div class="row">
-									<div class="col-md-6 col-xs-12 product-left">
-										<div class="product-info">
-											<div class="product-title">
-												<a href="product-detail-left-sidebar.html">
-													{{product.name}}
-												</a>
-											</div>
-											
-											<div class="product-rating">
-												<div class="star on"></div>
-												<div class="star on"></div>
-												<div class="star on "></div>
-												<div class="star on"></div>
-												<div class="star"></div>
-											</div>
-											
-											<div class="product-price">
-												<span class="sale-price">{{product.price}}</span>
-												<span class="base-price">{{product.sale_price}}</span>
-											</div>
-											
-											
-											{% if product.inventory <= 0 %}
-												<div class="out-of-stock">This product is currently out of stock.</div>
-											{%else%}
-											<div class="product-intro">{{product.detail}}</div>
-											{% endif %}
-                                            <form action="{% url 'store' %}" method="POST">
-                                                {%csrf_token%}
-                                                <input type="hidden" name="product_id" value="{{ product.id }}">
-                                                <button type="submit" class="btn btn-primary">Add to Cart</button>
-                                            </form>
-											
-											
-											
-											
-										</div>
-									</div>
-									
-									<div class="col-md-6 col-xs-12 product-right">
-										<div class="product-image">
-											<a href="product-detail-left-sidebar.html">
-												<img src="{{product.image.url}}" alt="Product Image">
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-								{% endfor %}
-							
-						</div>
-					</div>
-				</div>
-				
-				
-				<!-- Product - Best Sellers -->
-				<div class="section products-block product-tab nav-color show-hover nav-round best-sellers">
-					<div class="block-title">
-						<h2 class="title">Best <span>Sellers</span></h2>
-						<div class="sub-title">Lorem ipsum dolor sit amet consectetur adipiscing elit eiusmod tempor</div>
-					</div>
-					
-					<div class="block-content">
-						<!-- Tab Navigation -->
-						<div class="tab-nav">
-							<ul>
-								<li class="active">
-									<a data-toggle="tab" href="{% url 'store' %}">
-										<img src="{%static 'img/product/product-category-0.png' %}" alt="All Product">
-										<span>All Products</span>
-									</a>
-								</li>
-								<li>
-									<a data-toggle="tab" href="{% url 'store' %}">
-										<img src="{%static 'img/product/product-category-1.png' %}" alt="Vegetables">
-										<span>Vegetables</span>
-									</a>
-								</li>
-								<li>
-									<a data-toggle="tab" href="{% url 'store' %}">
-										<img src="{%static 'img/product/product-category-2.png' %}" alt="Fruits">
-										<span>Fruits</span>
-									</a>
-								</li>
-								<li>
-									<a data-toggle="tab" href="{% url 'store' %}">
-										<img src="{%static 'img/product/product-category-3.png' %}" alt="Bread">
-										<span>Bread</span>
-									</a>
-								</li>
-								<li>
-									<a data-toggle="tab" href="{% url 'store' %}">
-										<img src="{%static 'img/product/product-category-4.png' %}" alt="Juices">
-										<span>Juices</span>
-									</a>
-								</li>
-								<li>
-									<a data-toggle="tab" href="{% url 'store' %}">
-										<img src="{%static 'img/product/product-category-5.png' %}" alt="Tea">
-										<span>Tea</span>
-									</a>
-								</li>
-							</ul>
-						</div>
-						
-						<!-- Tab Content -->
-						<div class="tab-content">
-							<!-- All Products -->
-							
-							
-						</div>
-					</div>
-				</div>
-				
-				
-				<!-- Banners -->
-				<div class="section banners-block">
-					<div class="row margin-0">
-						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padding-0">
-							<div class="banner-item effect">
-								<a href="{% url 'store' %}">
-									<img class="img-responsive" src="{%static 'img/banner/home1-banner-1.png' %}" alt="Banner 1">
-								</a>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padding-0">
-							<div class="banner-item effect">
-								<a href="{% url 'store' %}">
-									<img class="img-responsive" src="{%static 'img/banner/home1-banner-2.png' %}" alt="Banner 2">
-								</a>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padding-0">
-							<div class="banner-item effect">
-								<a href="{% url 'store' %}">
-									<img class="img-responsive" src="{%static 'img/banner/home1-banner-3.png' %}" alt="Banner 3">
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				
-				
-				
-				
-				
-				
-				
-				<!-- Product - Category -->
-				
-				
-			
-				<!-- Partners -->
-				<div class="section partners">
 					<div class="block-content">
 						<div class="container">
-							<div class="partners-wrap owl-theme owl-carousel">
-								<a href="#"><img src="{%static 'img/partner-1.jpg' %}" alt="Partner 1"></a>
-								<a href="#"><img src="{%static 'img/partner-2.jpg' %}" alt="Partner 2"></a>
-								<a href="#"><img src="{%static 'img/partner-3.jpg' %}" alt="Partner 3"></a>
-								<a href="#"><img src="{%static 'img/partner-4.jpg' %}" alt="Partner 4"></a>
-								<a href="#"><img src="{%static 'img/partner-5.jpg' %}" alt="Partner 5"></a>
-								<a href="#"><img src="{%static 'img/partner-6.jpg' %}" alt="Partner 6"></a>
+							<div class="intro-wrap">
+								<div class="row">
+									<div class="col-lg-12 col-md-12 text-center">							
+										<div class="intro-header">
+											<h3>Why Choose Us</h3>
+											<p>No need to go market we go help you deliver your foodstuffs!</p>
+										</div>
+										<div class="intro-social">
+											<ul>
+												<li><a href="#"><img src="{%static 'img/intro-social-1.png' %}" alt="Social Item"></a></li>
+												<li><a href="#"><img src="{%static 'img/intro-social-2.png' %}" alt="Social Item"></a></li>
+												<li><a href="#"><img src="{%static 'img/intro-social-3.png' %}" alt="Social Item"></a></li>
+												<li><a href="#"><img src="{%static 'img/intro-social-4.png' %}" alt="Social Item"></a></li>
+											</ul>
+										</div>
+									</div>
+									
+									<div class="col-lg-6 col-md-6 col-sm-6 top-left text-center">
+										<div class="intro-item">
+											<p><img src="{%static 'img/intro-icon-1.png' %}" alt="Intro Image"></p>
+											<h4>Always Fresh</h4>
+											<p>At FreshSmart, We take great pride in ensuring that our customers always receive the freshest products available</p>
+										</div>
+									</div>
+									
+									<div class="col-lg-6 col-md-6 col-sm-6 top-right text-center">
+										<div class="intro-item">
+											<p><img src="{%static 'img/intro-icon-2.png' %}" alt="Intro Image"></p>
+											<h4>100% Natural</h4>
+											<p>We ensure that our customers have access to high-quality, wholesome, and unadulterated food options.</p>
+										</div>
+									</div>
+									
+									<div class="col-lg-6 col-md-6 col-sm-6 bottom-left text-center">
+										<div class="intro-item">
+											<p><img src="{%static 'img/intro-icon-3.png' %}" alt="Intro Image"></p>
+											<h4>Super Healthy</h4>
+											<p>Our products always align with current health guidelines and recommendations</p>
+										</div>
+									</div>
+																	
+									<div class="col-lg-6 col-md-6 col-sm-6 bottom-right text-center">
+										<div class="intro-item">
+											<p><img src="{%static 'img/intro-icon-4.png' %}" alt="Intro Image"></p>
+											<h4>Premium Quality</h4>
+											<p>Our ultimate goal is to exceed customer expectations and ensure their satisfaction.</p>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				
-				
-				<!-- Latest News -->
-				
 			</div>
 			
 			
 			<!-- Footer -->
-			
-			
+			<footer id="footer">
+				<div class="footer">
+					<div class="container">
+						<div class="footer-wrap">
+							<div class="row">
+								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 footer-col">
+									<div class="block text">
+										<div class="block-content">
+											<a href="{% url 'store' %}" class="logo-footer">
+												<img src="{%static 'img/logo-3.png' %}" alt="Logo">
+											</a>
+											
+											<p>Get your products delivered in minutes.</p>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 footer-col">
+									<div class="block newsletter">
+										<h2 class="block-title">Newsletter</h2>
+										
+										<div class="block-content">
+											<p class="description">Sign up for newsletter to receive special offers and exclusive news about FreshMart products</p>
+											<form action="{% url 'subscribe' %}" method="POST">
+												{%csrf_token%}
+												<input type="text" name = "email" placeholder="Enter Your Email">
+												<button type="submit" class="btn btn-primary">Subscribe</button>
+											</form>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 footer-col">
+									<div class="block text">
+										<h2 class="block-title">Opening Hours</h2>
+										
+										<div class="block-content">
+											<p>Our service hours. </p>
+											<p>
+												<strong>Monday To Friday</strong> : 8.00 AM - 8.00 PM<br>
+												<strong>Satuday</strong> : 7.30 AM - 9.30 PM<br>
+												<strong>Sunday</strong> : 7.00 AM - 10.00 PM
+											</p>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 footer-col">
+									<div class="block text">
+										<h2 class="block-title">Contact Us</h2>
+										
+										<div class="block-content">
+											<div class="contact">
+												<p><strong>Hotline</strong> : +2348145858941 - +2347032716595</p>
+												<p><strong>Email</strong> : <a>Freshmartservices@gmail.com</a></p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>		
+				</div>
+				
+				<!-- Copyright -->
+				<div class="footer-copyright">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+							</div>
+							
+							<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 align-right">
+								<div class="payment">
+									<img src="{%static 'img/payment.png' %}" alt="Payment">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
 			
 			
 			<!-- Go Up button -->
@@ -457,7 +408,7 @@
 				</div>
 			</div>
 		</div>
-			
+		
 		<!-- Vendor JS -->
 		<script src="{%static 'libs/jquery/jquery.js' %}"></script>
 		<script src="{%static 'libs/bootstrap/js/bootstrap.js' %}"></script>
@@ -473,8 +424,7 @@
 		<!-- Template CSS -->
 		<script src="{%static 'js/main.js' %}"></script>
 	</body>
+	
 
 
-</html>
-
-
+</html>					

@@ -42,6 +42,7 @@
 		<div id="all">
 			<!-- Header -->
 			<header id="header">
+				<!-- Topbar -->
 				
 				
 				<!-- Header Top -->
@@ -51,17 +52,14 @@
 							<!-- Search -->
 							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 								<div class="form-search">
-									<form action="#" method="get">
-										<input type="text" class="form-input" placeholder="Search">
-										<button type="submit" class="fa fa-search"></button>
-									</form>
+									
 								</div>
 							</div>
 							
 							<!-- Logo -->
 							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 								<div class="logo">
-									<a href="index.html">
+									<a href="{% url 'store' %}">
 										<img class="img-responsive" src="{%static 'img/logo.png' %}" alt="Logo">
 									</a>
 								</div>
@@ -69,79 +67,7 @@
 								<span id="toggle-mobile-menu"><i class="zmdi zmdi-menu"></i></span>
 							</div>
 							
-							<!-- Cart -->
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-								<div class="block-cart dropdown">
-									<div class="cart-title">
-										<i class="fa fa-shopping-basket"></i>
-										<span class="cart-count">2</span>
-									</div>
-									
-									<div class="dropdown-content">
-										<div class="cart-content">
-											<table>
-												<tbody>
-													<tr>
-														<td class="product-image">
-															<a href="product-detail-left-sidebar.html">
-																<img src="{%static 'img/product/7.jpg' %}" alt="Product">
-															</a>
-														</td>
-														<td>
-															<div class="product-name">
-																<a href="product-detail-left-sidebar.html">Organic Strawberry Fruits</a>
-															</div>
-															<div>	
-																2 x <span class="product-price">$28.98</span>
-															</div>
-														</td>
-														<td class="action">
-															<a class="remove" href="#">
-																<i class="fa fa-trash-o" aria-hidden="true"></i>
-															</a>
-														</td>
-													</tr>
-													
-													<tr>
-														<td class="product-image">
-															<a href="product-detail-left-sidebar.html">
-																<img src="{%static 'img/product/6.jpg' %}" alt="Product">
-															</a>
-														</td>
-														<td>
-															<div class="product-name">
-																<a href="product-detail-left-sidebar.html">Organic Strawberry</a>
-															</div>
-															<div>	
-																1 x <span class="product-price">$35.00</span>
-															</div>
-														</td>
-														<td class="action">
-															<a class="remove" href="#">
-																<i class="fa fa-trash-o" aria-hidden="true"></i>
-															</a>
-														</td>
-													</tr>
-													
-													<tr class="total">
-														<td>Total:</td>
-														<td colspan="2">$92.96</td>
-													</tr>
-													
-													<tr>
-														<td colspan="3">
-															<div class="cart-button">
-																<a class="btn btn-primary" href="product-cart.html" title="View Cart">View Cart</a>
-																<a class="btn btn-primary" href="product-checkout.html" title="Checkout">Checkout</a>
-															</div>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>	
-							</div>	
+							
 						</div>
 					</div>
 				</div>
@@ -150,17 +76,25 @@
 				<div id="main-menu">
 					<ul class="menu">
 						<li class="dropdown">
-							<a href="{% url 'store' %}" title="Homepage">Home</a>
-							
+							<a href="{% url 'store' %}" title="Homepage">Store</a>
 						</li>
 						
 						<li class="dropdown">
 							<a href="{% url 'cart' %}" title="Product">Cart</a>
+							
 						</li>
 						
 						<li class="dropdown">
 							<a href="{% url 'checkout' %}" title="Page">Checkout</a>
 						</li>
+						{% if user.is_authenticated %}
+						<li class="dropdown">
+							<a href="{% url 'logout' %}" title="Page">Logout</a>
+						</li>
+						<li class="dropdown">
+							<a href="{% url 'profile' %}" title="Page">My Account</a>
+						</li>
+						{% endif %}
 					</ul>
 				</div>
 			</header>
@@ -171,112 +105,61 @@
 				<!-- Breadcrumb -->
 				<div id="breadcrumb">
 					<div class="container">
-						<h2 class="title">Shopping Cart</h2>
+						<h2 class="title">Login</h2>
 						
 						<ul class="breadcrumb">
-							<li><a href="{% url 'store' %}" title="Home">Home</a></li>
-							<li><span>Shopping Cart</span></li>
+							<li><a href="{% url 'store' %}" title="Home">Store</a></li>
+							<li><span>Login</span></li>
 						</ul>
 					</div>
 				</div>
 			
+			
 				<div class="container">
-					<div class="page-checkout">
-						<div class="row">
-							<div class="checkout-left col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                
+					<div class="login-page">
+						<div class="login-form form">
+							<div class="block-title">
+								<h2 class="title"><span>Login</span></h2>
 							</div>
-							
-							
+							<style>h5{
+								color: red;
+							  }</style>
+							{% if messages %}
+                              {% for message in messages %}
+                              <h5> {{message}}</h5>
+                              {% endfor %}
+							  {% endif %}
+						
+							<form action="" method="POST">
+								{%csrf_token%}
+								<div class="form-group">
+									<label>Username</label>
+									<input type="text" id="username" name="username" required>
+								</div>
+								
+								<div class="form-group">
+									<label>Password</label>
+									<input type="password" id="password" name="password" required>
+								</div>
+								
+								<div class="form-group text-center">
+									<div class="link">
+										<a>Don't have an account?</a> 
+										<a href="{% url 'register' %}">Register</a>
+									</div>
+								</div>
+								
+								<div class="form-group text-center">
+									<input type="submit" class="btn btn-primary" value="Sign In">
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
 			
 			
-			<!-- Footer -->
-			<footer id="footer">
-				
-				
-				<!-- Copyright -->
-				<div class="footer-copyright">
-					<div class="container">
-						<div class="row">
-							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                            <div class="container my-5 text-center">
-                                <style>
-                                    form {
-                                    width: 400px;
-                                    margin: 50px auto;
-                                    padding: 20px;
-                                    background-color: #f5f5f5;
-                                    border: 1px solid #ccc;
-                                    border-radius: 5px;
-                                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                                  }
-              
-                                  label {
-                                    display: block;
-                                    margin-bottom: 10px;
-                                    font-size: 16px;
-                                    font-weight: bold;
-                                    color: #333;
-                                  }
-              
-                                  input[type="text"],
-                                  input[type="password"] {
-                                    width: 100%;
-                                    padding: 10px;
-                                    border: 1px solid #ccc;
-                                    border-radius: 3px;
-                                    font-size: 16px;
-                                    margin-bottom: 20px;
-                                  }
-              
-                                  input[type="submit"] {
-                                    background-color: #0070c9;
-                                    color: #fff;
-                                    padding: 10px 20px;
-                                    border: none;
-                                    border-radius: 3px;
-                                    font-size: 16px;
-                                    cursor: pointer;
-                                    transition: background-color 0.3s ease;
-                                  }
-              
-                                  input[type="submit"]:hover {
-                                    background-color: #005ba4;
-                                  }
-                                  h8{
-                                    color: red;
-                                  }
-                              </style>
-							  {% if messages %}
-                              {% for message in messages %}
-                              <h8> {{message}}</h8>
-                              {% endfor %}
-							  {% endif %}
-                              <form action = "" method="POST" autocomplete="on">
-                                {%csrf_token%}
-                                <label for="username">User ID:</label>
-                                <input type="text" id="username" name="username" required>
-                                <br>
-                                <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" required>
-                                <br>
-                                <input type="submit" value="Log in">
-                              </form>
-                              <p><h4>Don't have an account? <a href="{%url 'register'%}">Signup</a></h4></p>
-                            </div>
-                            
-								
-							</div>
-							
-							
-						</div>
-					</div>
-				</div>
-			</footer>
+			
 			
 			<!-- Go Up button -->
 			<div class="go-up">
@@ -314,10 +197,4 @@
 	</body>
 
 
-</html>
-
-
-
-
-</body>
 </html>

@@ -7,7 +7,7 @@
 		<!-- Basic Page Needs -->
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>FreshMart - Organic, Fresh Food, Farm Store HTML Template</title>
+		<title>FreshMart</title>
 		
 		<meta name="keywords" content="Organic, Fresh Food, Farm Store">
 		<meta name="description" content="FreshMart - Organic, Fresh Food, Farm Store HTML Template">
@@ -42,7 +42,6 @@
 		<div id="all">
 			<!-- Header -->
 			<header id="header">
-				<!-- Topbar -->
 				
 				
 				<!-- Header Top -->
@@ -67,6 +66,7 @@
 								<span id="toggle-mobile-menu"><i class="zmdi zmdi-menu"></i></span>
 							</div>
 							
+							<!-- Cart -->
 							
 						</div>
 					</div>
@@ -77,98 +77,128 @@
 					<ul class="menu">
 						<li class="dropdown">
 							<a href="{% url 'store' %}" title="Homepage">Store</a>
+							
 						</li>
 						
 						<li class="dropdown">
 							<a href="{% url 'cart' %}" title="Product">Cart</a>
-							
 						</li>
 						
 						<li class="dropdown">
 							<a href="{% url 'checkout' %}" title="Page">Checkout</a>
 						</li>
-						{% if user.is_authenticated %}
-						<li class="dropdown">
+                        <li class="dropdown">
 							<a href="{% url 'logout' %}" title="Page">Logout</a>
 						</li>
-						<li class="dropdown">
-							<a href="{% url 'profile' %}" title="Page">My Profile</a>
-						</li>
-						{% endif %}
+                        
+						
 					</ul>
 				</div>
 			</header>
+            <!-- Main Content -->
+
 			
-			
-			<!-- Main Content -->
-			<div id="content" class="site-content">
-				<!-- Breadcrumb -->
-				<div id="breadcrumb">
-					<div class="container">
-						<h2 class="title">Create Account</h2>
-						
-						<ul class="breadcrumb">
+                
+                    <!-- Breadcrumb -->
+                    <div id="breadcrumb">
+						<div class="container">
+							<h2 class="title">Profile</h2>
+							<ul class="breadcrumb">
 							<li><a href="{% url 'store' %}" title="Home">Store</a></li>
-							<li><span>Create Account</span></li>
-						</ul>
-					</div>
-				</div>
-			
-			
-				<div class="container">
-					<div class="register-page">
-						<div class="register-form form">
-							<div class="block-title">
-								<h2 class="title"><span>Create Account</span></h2>
-							</div>
-							<style>h5{
-								color: red;
-							  }</style>
-							{% if messages %}
-                            {% for message in messages %}
-                            <h5>{{ message }}</h5>
-                            {% endfor %}
-							{% endif %}
-							<form action="" method="POST">
-								{% csrf_token %}
-								<div class="form-group">
-									<label for="{{ form.username.id_for_label }}">Username:</label>
-									{{ form.username }}	
-								</div>
-								<div class="form-group">
-									<label type="email"  for="{{ form.email.id_for_label }}">Email Address:</label>
-									<input type="email" placeholder="Enter a valid email address" name="email" required>
-								</div>
-								<div class="form-group">
-									<label for="{{ form.phone_number.id_for_label }}">Phone Number:</label>
-									<input type="number" placeholder="Enter a valid phone number" name="phone_number" required>
-								</div>
-								<div class="form-group">
-									<label for="{{ form.password1.id_for_label }}">Password:</label>
-                                    <input type="password" name="password1" required>
-								</div>
-								<div class="form-group">
-									<label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
-									<input type="password" name="password2" required>
-								</div>
-								<div class="form-group text-center">
-									<div class="link">
-										<a>Already have an account?</a> 
-										<a href="{% url 'signin' %}">Signin</a>
+							<li><span>Profile</span></li>
+							</ul>
+						</div>
+                    </div>
+                    
+
+					<div class="container">
+						<div class="row">
+							<!-- Sidebar -->
+							<div id="left-column" class="sidebar col-lg-18 col-md-18 col-sm-18 col-xs-18">
+								<!-- Block - Product Categories -->
+								<div class="block product-categories">
+									<h3 class="block-title">Profile</h3>
+									{% if profile %}
+									{% for info in profile %} 
+									<div class="block-content">
+										<div class="item">
+											<a class="category-title">First Name: {{info.first_name}}</a>
+										</div>
+										
+										<div class="item">
+											<a class="category-title">Middle Name: {{info.Middle_name}}</a>
+										</div>
+										
+										<div class="item">
+											<a class="category-title">Last Name: {{info.last_name}}</a>
+										</div>
+										
+										<div class="item">
+											<a class="category-title">Gender: {{info.gender}}</a>
+										</div>
 									</div>
+									{% endfor %}
+									{% else%}
+									<div class="post-item">
+									
+									<h4  class="post-title" style="color:#45a049;">Hello {{user.username}}! Update your profile<a href="{%url 'createprofile'%}"> here</a></h4>
+									</div>
+									{% endif %}
 								</div>
 								
-								<div class="form-group text-center">
-									<input type="submit" class="btn btn-primary" value="Create Account">
-								</div>
-							</form>
+								
+								
+								
+								
+								
+								
+								
+							</div>
 							
+							<!-- Page Content -->
+							<div id="center-column" class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+								<div class="blog-detail">
+									<div class="post-item">
+										{% if order_history %}
+										<h1 class="post-title">Here is your order history</h1>
+										
+										
+										{% for order in order_history %}
+										<div class="post-meta border-bottom">
+											<div class="post-info">
+												<span class="date item"><i class="zmdi zmdi-calendar-note"></i>{{ order.date_ordered }}</span>
+												<span class="author item"><i class="zmdi zmdi-account"></i>{{ order.product.name }}</span>
+											</div>
+											
+											<div class="post-share">
+												<div class="item">
+													<a><i aria-hidden="true"></i><span class="text">quantity: {{ order.quantity }}</span></a>
+												</div>
+											</div>
+										</div>
+										{% endfor %}
+										{% else %}
+										<h1 class="post-title" style="color:#45a049;">You've got no order history, Start shopping today</h1>
+										{% endif %}
+										
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
+  
+              
+              
 			
 			
+			<!-- Footer -->
 			
 			
 			<!-- Go Up button -->
@@ -190,7 +220,7 @@
 			</div>
 		</div>
 			
-			<!-- Vendor JS -->
+		<!-- Vendor JS -->
 		<script src="{%static 'libs/jquery/jquery.js' %}"></script>
 		<script src="{%static 'libs/bootstrap/js/bootstrap.js' %}"></script>
 		<script src="{%static 'libs/jquery.countdown/jquery.countdown.js' %}"></script>
@@ -206,4 +236,11 @@
 		<script src="{%static 'js/main.js' %}"></script>
 	</body>
 
+
+</html>
+
+
+
+
+</body>
 </html>

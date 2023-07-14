@@ -42,7 +42,6 @@
 		<div id="all">
 			<!-- Header -->
 			<header id="header">
-				<!-- Topbar -->
 				
 				
 				<!-- Header Top -->
@@ -52,6 +51,7 @@
 							<!-- Search -->
 							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 								<div class="form-search">
+									
 								</div>
 							</div>
 							
@@ -67,6 +67,7 @@
 							</div>
 							
 							<!-- Cart -->
+							
 						</div>
 					</div>
 				</div>
@@ -76,17 +77,17 @@
 					<ul class="menu">
 						<li class="dropdown">
 							<a href="{% url 'store' %}" title="Homepage">Store</a>
+							
 						</li>
 						
 						<li class="dropdown">
 							<a href="{% url 'cart' %}" title="Product">Cart</a>
-							
 						</li>
 						
 						<li class="dropdown">
 							<a href="{% url 'checkout' %}" title="Page">Checkout</a>
 						</li>
-						{% if user.is_authenticated %}
+                        {% if user.is_authenticated %}
 						<li class="dropdown">
 							<a href="{% url 'profile' %}" title="Page">My Account</a>
 						</li>
@@ -97,7 +98,6 @@
 						{% endif %}
 					</ul>
 				</div>
-				
 			</header>
 			
 			
@@ -113,128 +113,15 @@
 							<li><span>Shopping Cart</span></li>
 						</ul>
 					</div>
-				</div>
+				</div>		
 			
 				<div class="container">
-					<div class="page-cart">
-						<div class="table-responsive">
-							{% if error_messages %}
-							<div class="alert alert-danger" role="alert">
-								{% for message in error_messages %}
-								<p>{{ message }}</p>
-								{% endfor %}
+					<div class="page-checkout">
+						<div class="row">
+							<div class="checkout-left col-lg-9 col-md-9 col-sm-9 col-xs-12">
+								<p>Your order was complete, Give us a second let's connect you to a biker</p>
 							</div>
-							{% endif %}
-							<table class="cart-summary table table-bordered">
-								<thead>
-									<tr>
-										<th class="width-20">&nbsp;</th>
-										<th class="width-80 text-center">Image</th>
-										<th>Name</th>
-										<th class="width-100 text-center">Unit price</th>
-										<th class="width-100 text-center">Qty</th>
-										<th class="width-100 text-center">Total</th>
-									</tr>
-								</thead>
-								{% for order_item in order_items %}
-								
-								<tbody>
-									<tr>
-										<td class="product-remove">
-											<a title="Remove this item" class="remove" href="{% url 'delete_item' order_item.id %}">
-												<i class="fa fa-times"></i>
-											</a>
-										</td>
-										<td>
-											<a href="{% url 'store' %}">
-												<img width="80" alt="Product Image" class="img-responsive" src="{{order_item.product.image.url}}">
-											</a>
-										</td>
-										<td>
-											<a href="{% url 'store' %}" class="product-name">{{ order_item.product.name }}</a>
-										</td>
-										<td class="text-center">
-											₦{{ order_item.product.price }}
-										</td>
-										<td>
-											<div class="product-quantity">
-												<div class="qty">
-													<div class="input-group">
-														<form action="{% url 'update_item' order_item.id %}" method="POST">
-															{% csrf_token %}
-															<input type="number" name="quantity" value="{{ order_item.quantity }}" data-min="1">
-															<span class="adjust-qty">
-																<span class="adjust-btn plus">+</span>
-																<span class="adjust-btn minus">-</span>
-															</span>
-															<button type="submit" class="btn btn-primary" style="font-size: 12px; padding: 5px 10px;">Update</button>
-														</form>
-													</div>
-												</div>
-											</div>
-										</td>
-										<script>
-											
-											const input = document.querySelector('input[name="quantity"]');
-											const plusBtn = document.querySelector('.adjust-btn.plus');
-											const minusBtn = document.querySelector('.adjust-btn.minus');
-											const minValue = parseInt(input.getAttribute('data-min')); 
-										
-											
-											plusBtn.addEventListener('click', function() {
-												let value = parseInt(input.value);
-												value = isNaN(value) ? minValue : value;
-												input.value = value + 1;
-											});
-										
-											
-											minusBtn.addEventListener('click', function() {
-												let value = parseInt(input.value);
-												value = isNaN(value) ? minValue : value;
-												input.value = value > minValue ? value - 1 : minValue;
-											});
-										</script>
-										
-										
-										
-										<td class="text-center">
-										</td>
-									</tr>
 									
-								</tbody>
-								{% endfor %}
-								
-								<tfoot>
-									<tr class="cart-total">
-										<td rowspan="3" colspan="3"></td>
-										<td colspan="2" class="text-right">Total products</td>
-										<td colspan="1" class="text-center">₦{{ total }}</td>
-									</tr>
-									<tr class="cart-total">
-										<td colspan="2" class="text-right">Total shipping</td>
-										<td colspan="1" class="text-center">₦0</td>
-									</tr>
-									<tr class="cart-total">
-										<td colspan="2" class="total text-right">Total</td>
-										<td colspan="1" class="total text-center">₦{{ total }}</td>
-									</tr>
-								</tfoot>
-							</table>
-							
-						</div>
-						
-						
-						<div class="checkout-btn">
-							<a href="{% url 'checkout' %}" class="btn btn-primary pull-right" title="Proceed to checkout">
-								<span>Proceed to checkout</span>
-								<i class="fa fa-angle-right ml-xs"></i>
-							</a>
-						</div>
-						<div class="checkout-btn">
-							<a href="{% url 'store' %}" class="btn btn-primary pull-right" title="Proceed to checkout">
-								<span>Continue shopping</span>
-								<i class="fa fa-angle-right ml-xs"></i>
-							</a>
 						</div>
 					</div>
 				</div>
@@ -300,4 +187,10 @@
 	</body>
 
 
+</html>
+
+
+
+
+</body>
 </html>

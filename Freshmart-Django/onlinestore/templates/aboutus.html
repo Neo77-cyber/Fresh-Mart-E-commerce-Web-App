@@ -7,7 +7,7 @@
 		<!-- Basic Page Needs -->
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>FreshMart</title>
+		<title>FreshMart - Organic, Fresh Food, Farm Store HTML Template</title>
 		
 		<meta name="keywords" content="Organic, Fresh Food, Farm Store">
 		<meta name="description" content="FreshMart - Organic, Fresh Food, Farm Store HTML Template">
@@ -52,6 +52,7 @@
 							<!-- Search -->
 							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 								<div class="form-search">
+									
 								</div>
 							</div>
 							
@@ -66,12 +67,11 @@
 								<span id="toggle-mobile-menu"><i class="zmdi zmdi-menu"></i></span>
 							</div>
 							
-							<!-- Cart -->
+							
 						</div>
 					</div>
 				</div>
 				
-				<!-- Main Menu -->
 				<div id="main-menu">
 					<ul class="menu">
 						<li class="dropdown">
@@ -86,18 +86,8 @@
 						<li class="dropdown">
 							<a href="{% url 'checkout' %}" title="Page">Checkout</a>
 						</li>
-						{% if user.is_authenticated %}
-						<li class="dropdown">
-							<a href="{% url 'profile' %}" title="Page">My Account</a>
-						</li>
-						<li class="dropdown">
-							<a href="{% url 'logout' %}" title="Page">Logout</a>
-						</li>
-						
-						{% endif %}
 					</ul>
 				</div>
-				
 			</header>
 			
 			
@@ -106,135 +96,62 @@
 				<!-- Breadcrumb -->
 				<div id="breadcrumb">
 					<div class="container">
-						<h2 class="title">Shopping Cart</h2>
+						<h2 class="title">About Us</h2>
 						
 						<ul class="breadcrumb">
 							<li><a href="{% url 'store' %}" title="Home">Store</a></li>
-							<li><span>Shopping Cart</span></li>
+							<li><span>About Us</span></li>
 						</ul>
 					</div>
 				</div>
 			
 				<div class="container">
-					<div class="page-cart">
-						<div class="table-responsive">
-							{% if error_messages %}
-							<div class="alert alert-danger" role="alert">
-								{% for message in error_messages %}
-								<p>{{ message }}</p>
-								{% endfor %}
-							</div>
-							{% endif %}
-							<table class="cart-summary table table-bordered">
-								<thead>
-									<tr>
-										<th class="width-20">&nbsp;</th>
-										<th class="width-80 text-center">Image</th>
-										<th>Name</th>
-										<th class="width-100 text-center">Unit price</th>
-										<th class="width-100 text-center">Qty</th>
-										<th class="width-100 text-center">Total</th>
-									</tr>
-								</thead>
-								{% for order_item in order_items %}
+					<div class="about-us intro">
+						<div class="container">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<div class="intro-header">
+										<h3>Welcome To FreshMart</h3>
+										<p>Introducing FreshSmart: Revolutionizing Foeedstuff shopping</p>
+									</div>
+								</div>
 								
-								<tbody>
-									<tr>
-										<td class="product-remove">
-											<a title="Remove this item" class="remove" href="{% url 'delete_item' order_item.id %}">
-												<i class="fa fa-times"></i>
-											</a>
-										</td>
-										<td>
-											<a href="{% url 'store' %}">
-												<img width="80" alt="Product Image" class="img-responsive" src="{{order_item.product.image.url}}">
-											</a>
-										</td>
-										<td>
-											<a href="{% url 'store' %}" class="product-name">{{ order_item.product.name }}</a>
-										</td>
-										<td class="text-center">
-											₦{{ order_item.product.price }}
-										</td>
-										<td>
-											<div class="product-quantity">
-												<div class="qty">
-													<div class="input-group">
-														<form action="{% url 'update_item' order_item.id %}" method="POST">
-															{% csrf_token %}
-															<input type="number" name="quantity" value="{{ order_item.quantity }}" data-min="1">
-															<span class="adjust-qty">
-																<span class="adjust-btn plus">+</span>
-																<span class="adjust-btn minus">-</span>
-															</span>
-															<button type="submit" class="btn btn-primary" style="font-size: 12px; padding: 5px 10px;">Update</button>
-														</form>
-													</div>
-												</div>
-											</div>
-										</td>
-										<script>
-											
-											const input = document.querySelector('input[name="quantity"]');
-											const plusBtn = document.querySelector('.adjust-btn.plus');
-											const minusBtn = document.querySelector('.adjust-btn.minus');
-											const minValue = parseInt(input.getAttribute('data-min')); 
+								<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+									<div class="intro-left">
+										<div class="intro-item">
+											<p><img src="{%static 'img/intro-icon-1.png' %}" alt="Intro Image"></p>
+											<h4>Always Fresh</h4>
+											<p>We take great pride in ensuring that our customers always receive the freshest products available.</p>
+										</div>
 										
-											
-											plusBtn.addEventListener('click', function() {
-												let value = parseInt(input.value);
-												value = isNaN(value) ? minValue : value;
-												input.value = value + 1;
-											});
-										
-											
-											minusBtn.addEventListener('click', function() {
-												let value = parseInt(input.value);
-												value = isNaN(value) ? minValue : value;
-												input.value = value > minValue ? value - 1 : minValue;
-											});
-										</script>
-										
-										
-										
-										<td class="text-center">
-										</td>
-									</tr>
+										<div class="intro-item">
+											<p><img src="{%static 'img/intro-icon-3.png' %}" alt="Intro Image"></p>
+											<h4>Super Healthy</h4>
+											<p>We deliver high-quality, wholesome, and unadulterated food options.</p>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 									
-								</tbody>
-								{% endfor %}
+								</div>
 								
-								<tfoot>
-									<tr class="cart-total">
-										<td rowspan="3" colspan="3"></td>
-										<td colspan="2" class="text-right">Total products</td>
-										<td colspan="1" class="text-center">₦{{ total }}</td>
-									</tr>
-									<tr class="cart-total">
-										<td colspan="2" class="text-right">Total shipping</td>
-										<td colspan="1" class="text-center">₦0</td>
-									</tr>
-									<tr class="cart-total">
-										<td colspan="2" class="total text-right">Total</td>
-										<td colspan="1" class="total text-center">₦{{ total }}</td>
-									</tr>
-								</tfoot>
-							</table>
-							
-						</div>
-						
-						
-						<div class="checkout-btn">
-							<a href="{% url 'checkout' %}" class="btn btn-primary pull-right" title="Proceed to checkout">
-								<span>Proceed to checkout</span>
-								<i class="fa fa-angle-right ml-xs"></i>
-							</a>
-						</div>
-						<div class="checkout-btn">
-							<a href="{% url 'store' %}" class="btn btn-primary pull-right" title="Proceed to checkout">
-								<span>Continue shopping</span>
-								<i class="fa fa-angle-right ml-xs"></i>
-							</a>
+								<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+									<div class="intro-right">
+										<div class="intro-item">
+											<p><img src="{%static 'img/intro-icon-2.png' %}" alt="Intro Image"></p>
+											<h4>100% Natural</h4>
+											<p>Our products always align with current health guidelines and recommendations.</p>
+										</div>
+										
+										<div class="intro-item">
+											<p><img src="{%static 'img/intro-icon-4.png' %}" alt="Intro Image"></p>
+											<h4>Premium Quality</h4>
+											<p>Our ultimate goal is to exceed customer expectations and ensure their satisfaction.</p>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -243,7 +160,84 @@
 			
 			<!-- Footer -->
 			<footer id="footer">
-				
+				<div class="footer">
+					<!-- Footer Top -->
+					<div class="footer-top">
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+									<div class="block text">
+										<div class="block-content">
+											<a href="{% url 'store' %}" class="logo-footer">
+												<img src="{%static 'img/logo-2.png' %}" alt="Logo">
+											</a>
+									
+											<div class="contact">
+												
+												<div class="item d-flex">
+													<div class="item-left">
+														<i class="zmdi zmdi-phone-in-talk"></i>
+													</div>
+													<div class="item-right">
+														<span>+2348145858941<br>+2347032716595</span>
+													</div>
+												</div>
+												<div class="item d-flex">
+													<div class="item-left">
+														<i class="zmdi zmdi-email"></i>
+													</div>
+													<div class="item-right">
+														<span><a >Freshmartservices@gmail.com</a></span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+									<div class="block instagram">
+										
+										
+										<div class="block-content">
+											
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+									<div class="block newsletter">
+										<h2 class="block-title">Newsletter</h2>
+										
+										<div class="block-content">
+											<p class="description">Sign up for newsletter to receive special offers and exclusive news about FreshMart products</p>
+											<form action="{% url 'subscribe' %}" method="POST">
+                                                {%csrf_token%}
+												<input type="text" name = "email" placeholder="Enter Your Email">
+												<button type="submit" class="btn btn-primary">Subscribe</button>
+											</form>
+										</div>
+									</div>
+										
+									<div class="block social">
+										<h2 class="block-title">Follow Us</h2>
+										
+										<div class="block-content">
+											<ul>
+												<li><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+												<li><a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+												<li><a href="#"><i class="zmdi zmdi-dribbble"></i></a></li>
+												<li><a href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+				</div>
 				
 				<!-- Copyright -->
 				<div class="footer-copyright">
@@ -298,6 +292,5 @@
 		<!-- Template CSS -->
 		<script src="{%static 'js/main.js' %}"></script>
 	</body>
-
 
 </html>
